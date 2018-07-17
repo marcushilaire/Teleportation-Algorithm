@@ -1,24 +1,26 @@
-// let network = {
-//   washington: ["seattle", "austin", "anaheim"],
-//   seattle: ["washington", "anaheim"],
-//   austin: ["washington", "anaheim"],
-//   anaheim: ["washington", "seattle", "austin"],
-//   test: this
-// };
-// // city a connects to b, c and d
-// // city b connects to a and d
-// // city c connects to a and d
-// // city d connects to a, b and c
+let network = {
+  washington: {
+    1: ["seattle"]
+    // 2: ["washington", "anaheim"],
+    // 3: ["seattle", "austin", "washington"],
+    // 4: ["washington", "anaheim", "seattle"],
+    // 5: ["seattle", "austin", "washington", "anaheim"]
+  },
+  seattle: ["washington", "anaheim"],
+  // 2: ["seattle", "austin", "washington"],
+  // 3: ["washington", "anaheim", "seattle"],
+  // 4: ["seattle", "austin", "washington", "anaheim"]
+  austin: ["anaheim"],
+  // 2: ["austin", "seattle", "washington"],
+  // 3: ["washington", "anaheim", "seattle"],
+  // 4: ["seattle", "austin", "washington", "anaheim"]
+  anaheim: ["austin", "seattle", "washington"]
+  // 2: ["washington", "anaheim", "seattle"],
+  // 3: ["seattle", "austin", "washington", "anaheim"]
+};
 
-// const oneJump = city => {
-//   city.forEach((element, index) => {
-//     console.log(element);
-//   });
-// };
-// console.log(network.test.bind(network));
-function City(name, portals) {
-  this.name = name;
-  this.portals = portals;
-}
-let washington = new City("washington", ["seattle", "austin", "anaheim"]);
-console.log(washington);
+// console.log(nJump(network.washington, 5));
+const oneJump = city => {
+  array.forEach(element => {});
+};
+console.log(network["washington"]);
