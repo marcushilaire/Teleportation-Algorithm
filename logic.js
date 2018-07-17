@@ -1,11 +1,9 @@
 let network = {
-  washington: {
-    1: ["seattle"]
-    // 2: ["washington", "anaheim"],
-    // 3: ["seattle", "austin", "washington"],
-    // 4: ["washington", "anaheim", "seattle"],
-    // 5: ["seattle", "austin", "washington", "anaheim"]
-  },
+  washington: ["seattle"],
+  // 2: ["washington", "anaheim"],
+  // 3: ["seattle", "austin", "washington"],
+  // 4: ["washington", "anaheim", "seattle"],
+  // 5: ["seattle", "austin", "washington", "anaheim"]
   seattle: ["washington", "anaheim"],
   // 2: ["seattle", "austin", "washington"],
   // 3: ["washington", "anaheim", "seattle"],
@@ -19,8 +17,20 @@ let network = {
   // 3: ["seattle", "austin", "washington", "anaheim"]
 };
 
-// console.log(nJump(network.washington, 5));
 const oneJump = city => {
-  array.forEach(element => {});
+  network[`${city}`].forEach(element => {
+    console.log(element);
+  });
 };
-console.log(network["washington"]);
+
+const secondJump = city => {
+  let arrN = [];
+  // set up an empty array to dump each part of the forEach
+  network[`${city}`].forEach(element => {
+    arrN.push(network[`${element}`]);
+  });
+  console.log(arrN);
+};
+secondJump("anaheim"); // [ [ 'seattle' ], [ 'austin', 'seattle', 'washington' ] ]
+// this is currently returning a an array of arrays
+// fix this with a reduce function that turns an array into one string
