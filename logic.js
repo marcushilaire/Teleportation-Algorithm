@@ -35,7 +35,7 @@ let stringify = array => {
   return stringArr;
 };
 
-const jumpOptions = (Arr, n) => {
+const jumpOptions = Arr => {
   // takes in an array
   let arrN = [];
   Arr.forEach(element => {
@@ -44,9 +44,24 @@ const jumpOptions = (Arr, n) => {
   return stringify(arrN);
 };
 
+const recursiveJump = (Arr, n) => {
+  if (n === 1) {
+    return Arr;
+  }
+  let arrN = [];
+  Arr.forEach(element => {
+    arrN.push(network[element]);
+  });
+
+  return recursiveJump(stringify(arrN), n - 1);
+};
+
 let secondJump = jumpOptions(network.washington);
 console.log("washington");
 console.log(1, network.washington);
 console.log(2, secondJump); //[ 'anaheim', 'washington', 'seattle' ]
 console.log(3, jumpOptions(secondJump));
 console.log(4, jumpOptions(jumpOptions(secondJump)));
+console.log("===");
+console.log("recursive");
+console.log(recursiveJump(network.washington, 5));
