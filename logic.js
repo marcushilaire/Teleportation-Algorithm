@@ -10,45 +10,43 @@ let network = {
   // 4: ["seattle", "austin", "washington", "anaheim"]
   austin: ["anaheim"],
   // 2: ["austin", "seattle", "washington"],
-  // 3: ["washington", "anaheim", "seattle"],
-  // 4: ["seattle", "austin", "washington", "anaheim"]
+  // 3: ["anaheim", "washington", "seattle"],
+  // 4: ["austin", "seattle", "washington", "anaheim"],
   anaheim: ["austin", "seattle", "washington"]
-  // 2: ["washington", "anaheim", "seattle"],
-  // 3: ["seattle", "austin", "washington", "anaheim"]
+  // 2: ["anaheim", "washington", "seattle"]
+  // 3: ["austin", "seattle", "washington", "anaheim"]
 };
+let testArr = [[1], [2, 3], [4], [5, [6, 7]]];
+let placeboArr = [1, [2, 3], 4];
 
-const oneJump = city => {
-  network[`${city}`].forEach(element => {
-    console.log(element);
+let stringify = array => {
+  let stringArr = [];
+  array.forEach(element => {
+    if (typeof element === "object") {
+      element.forEach(element => {
+        if (!stringArr.includes(element)) {
+          stringArr.push(element);
+        }
+      });
+    } else {
+      stringArr.push(element);
+    }
   });
+  return stringArr;
 };
 
-const secondJump = city => {
+const jumpOptions = (Arr, n) => {
   // takes in an array
   let arrN = [];
-  // set up an empty array to dump each part of the forEach
-  network[`${city}`].forEach(element => {
-    // for each defined element in
-    arrN.push(network[`${element}`]);
+  Arr.forEach(element => {
+    arrN.push(network[element]);
   });
-  return arrN;
-};
-let testArr = [9, 8, 7, 8];
-// the call back being passed to reduce, with 0 as the accumulator
-stringify = (accum, currVal, index, array) => {
-  if (typeof currVal === "object") {
-    console.log(index, currVal, "this is an object");
-    currVal.reduce(stringify, 0);
-    // return;
-  }
-  console.log(index, currVal, "this is not an object");
-  console.log("===");
-  return accum + currVal;
+  return stringify(arrN);
 };
 
-// secondJump("anaheim"); // [ [ 'anaheim' ], [ 'washington', 'anaheim' ], [ 'seattle' ] ]
-// this is currently returning a an array of arrays
-// fix this with a reduce function that turns an array into one string
-// console.log(secondJump("anaheim"));
-// stringify(6, testArr);
-secondJump("anaheim").reduce(stringify, "");
+let secondJump = jumpOptions(network.washington);
+console.log("washington");
+console.log(1, network.washington);
+console.log(2, secondJump); //[ 'anaheim', 'washington', 'seattle' ]
+console.log(3, jumpOptions(secondJump));
+console.log(4, jumpOptions(jumpOptions(secondJump)));
