@@ -24,13 +24,31 @@ const oneJump = city => {
 };
 
 const secondJump = city => {
+  // takes in an array
   let arrN = [];
   // set up an empty array to dump each part of the forEach
   network[`${city}`].forEach(element => {
+    // for each defined element in
     arrN.push(network[`${element}`]);
   });
-  console.log(arrN);
+  return arrN;
 };
-secondJump("anaheim"); // [ [ 'seattle' ], [ 'austin', 'seattle', 'washington' ] ]
+let testArr = [9, 8, 7, 8];
+// the call back being passed to reduce, with 0 as the accumulator
+stringify = (accum, currVal, index, array) => {
+  if (typeof currVal === "object") {
+    console.log(index, currVal, "this is an object");
+    currVal.reduce(stringify, 0);
+    // return;
+  }
+  console.log(index, currVal, "this is not an object");
+  console.log("===");
+  return accum + currVal;
+};
+
+// secondJump("anaheim"); // [ [ 'anaheim' ], [ 'washington', 'anaheim' ], [ 'seattle' ] ]
 // this is currently returning a an array of arrays
 // fix this with a reduce function that turns an array into one string
+// console.log(secondJump("anaheim"));
+// stringify(6, testArr);
+secondJump("anaheim").reduce(stringify, "");
