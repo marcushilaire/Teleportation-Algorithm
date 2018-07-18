@@ -80,7 +80,7 @@ const possibleTwo = (from, n) => {
 possibleTwo("washington", 90);
 
 const possibleTravel = (from, to) => {
-  if (possibleTwo(network[from], 90).includes(to)) {
+  if (possibleTwo(from, 90).includes(to)) {
     return `Yes you can teleport from ${from} to ${to}`;
   }
   return `No, you cannot teleport from ${from} to ${to}`;
@@ -90,3 +90,5 @@ const loopPath = city => {
   network[city].forEach;
   return true;
 }; // start by making this function retrn true for oakland because a loop is possible
+console.log(possibleTwo("oakland", 90));
+console.log(possibleTravel("oakland", "atlanta"));
