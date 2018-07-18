@@ -10,16 +10,19 @@ let network = {
   newyork: ["philadelphia", "seattle"]
 };
 
-let testArr = [[1], [2, 3], [4], [5, [6, 7]]];
-let placeboArr = [1, [2, 3], 4];
+let testArr = [[1, 2], [2, 3, 4, 5], [6]];
+let placeboArr = [1, 2, 3, 4];
 
 const initializePort = (a, b) => {
+  // both arguments are expected to be city names as strings
+
   //first conditional
   if (network[a]) {
     network[a].push(b);
   } else {
     network[a] = [b];
   }
+
   //second conditional
   if (network[b]) {
     network[b].push(a);
@@ -30,6 +33,7 @@ const initializePort = (a, b) => {
 };
 
 const stringify = array => {
+  // expects to take in an array ([[1], [2, 3], [4]]) and returns  [1, 2, 3, 4]
   let stringArr = [];
   array.forEach(element => {
     if (typeof element === "object") {
@@ -66,21 +70,23 @@ const recursiveJump = (Arr, n) => {
   return recursiveJump(stringify(arrN), n - 1);
 };
 
+const possibleTwo = (from, n) => {
+  let dump = [];
+  for (let i = 1; i <= n; i++) {
+    dump.push(recursiveJump(network[from], i));
+  }
+  return stringify(dump);
+};
+possibleTwo("washington", 90);
+
 const possibleTravel = (from, to) => {
-  if (recursiveJump(network[from], 90).includes(to)) {
+  if (possibleTwo(network[from], 90).includes(to)) {
     return `Yes you can teleport from ${from} to ${to}`;
   }
   return `No, you cannot teleport from ${from} to ${to}`;
 }; // expand on this later to include which specific path you can take
 
-let secondJump = jumpOptions(network.seattle);
-// console.log("seattle");
-// console.log(1, network.seattle);
-// console.log(2, secondJump);
-// console.log(3, jumpOptions(secondJump));
-// console.log(4, jumpOptions(jumpOptions(secondJump)));
-// console.log("===");
-// console.log("recursive");
-// console.log(recursiveJump(network.oakland, 90));
-// console.log(possibleTravel("oakland", "atlanta"));
-initializePort("newyork", "washington");
+const loopPath = city => {
+  network[city].forEach;
+  return true;
+}; // start by making this function retrn true for oakland because a loop is possible
