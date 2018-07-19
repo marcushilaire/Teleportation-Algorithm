@@ -52,6 +52,15 @@ const stringify = array => {
   return stringArr;
 }; // and returns  [1, 2, 3, 4]
 
+const arrCompare = (x, y) => {
+  // x should be visited and y should be the new visit attempt
+  for (let i = 0; i < x.length; i++) {
+    if (x[i].includes(y[0]) && x[i].includes(y[1])) {
+      return true;
+    }
+  }
+}; // returns true if the arrays contain essentially same values
+
 const recursiveJump = (Arr, n) => {
   // expects an array and an iterator as arguments
   if (n === 1) {
@@ -89,13 +98,19 @@ const portTo = (from, to) => {
   return [from, to];
 };
 
-const jumpMapper = from => {
-  let visitObj = {};
-  network[from].forEach((element, index) => {
-    visitObj[element] = [portTo(from, element)];
-  });
+const conditionalPush = (city, visited) => {
+  //takes in city name and array from jumpMapper(from, visited)
+  for (let i = 0; i < network[city].length; i++) {
+    if (!arrCompare(visited, portTo(city, network[city][i]))) {
+      visited.push(portTo(city, network[city][i]));
+    }
+  }
+}; // pushes to the visited array if the path has not been taken
 
-  console.log(visitObj);
+const jumpMapper = from => {
+  let visited = [];
+  conditionalPush(from, visited); //
+  console.log(visited);
 };
 jumpMapper("oakland");
 // start by making this function retrn true for oakland because a loop is possible
