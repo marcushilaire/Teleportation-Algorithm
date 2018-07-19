@@ -121,8 +121,17 @@ const jumpMapper = from => {
   //check to see if the visited array contains two seperate paths to home,
   // start by making this function retrn true for oakland because a loop is possible
 };
+const pathLister = (from, to) => {
+  let visitedArr = [];
+  for (let i = 1; i <= 90; i++) {
+    recursiveJump(network[from], i).forEach(element => {
+      if (!arrCompare(visitedArr, portTo(from, element)))
+        visitedArr.push(portTo(from, element));
+    });
+  }
 
-console.log(recursiveJump(network.washington, 90));
-console.log(recursiveJump(network.washington, 91));
+  console.log(visitedArr);
+};
 
 jumpMapper("washington");
+// pathLister("oakland");
