@@ -7,10 +7,8 @@ const arrCompare = (x, y) => {
   // x should be visited and y should be the new visit attempt
   for (let i = 0; i < x.length; i++) {
     if (x[i].includes(y[0]) && x[i].includes(y[1])) {
-      console.log("truthy");
       return true;
     }
-    console.log("falsy");
   }
 }; // returns true if the arrays contain essentially same values
 
