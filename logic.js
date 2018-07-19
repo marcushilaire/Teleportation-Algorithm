@@ -100,6 +100,7 @@ const portTo = (from, to) => {
 
 const conditionalPush = (city, visited) => {
   //takes in city name and array from jumpMapper(from, visited)
+  // if(city!==)
   for (let i = 0; i < network[city].length; i++) {
     if (!arrCompare(visited, portTo(city, network[city][i]))) {
       visited.push(portTo(city, network[city][i]));
@@ -109,15 +110,19 @@ const conditionalPush = (city, visited) => {
 
 const jumpMapper = from => {
   let visited = [];
-  // for vr
   for (let i = 1; i <= 90; i++) {
     recursiveJump(network[from], i).forEach(element => {
+      // if (element !== from) {
       conditionalPush(element, visited);
+      // }
     });
   }
-  // conditionalPush(from, visited); //
   console.log(visited);
+  //check to see if the visited array contains two seperate paths to home,
+  // start by making this function retrn true for oakland because a loop is possible
 };
 
-jumpMapper("oakland");
-// start by making this function retrn true for oakland because a loop is possible
+console.log(recursiveJump(network.washington, 90));
+console.log(recursiveJump(network.washington, 91));
+
+jumpMapper("washington");
