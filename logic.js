@@ -85,7 +85,17 @@ const possibleTravel = (from, to) => {
 }; // returns a string that indicates whether or not you can teleport between both cities
 // expand on this later to include which specific path you can take
 
-const loopPath = city => {
-  network[city].forEach;
-  return true;
-}; // start by making this function retrn true for oakland because a loop is possible
+const portTo = (from, to) => {
+  return [from, to];
+};
+
+const jumpMapper = from => {
+  let visitObj = {};
+  network[from].forEach((element, index) => {
+    visitObj[element] = [portTo(from, element)];
+  });
+
+  console.log(visitObj);
+};
+jumpMapper("oakland");
+// start by making this function retrn true for oakland because a loop is possible
