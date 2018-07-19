@@ -109,8 +109,15 @@ const conditionalPush = (city, visited) => {
 
 const jumpMapper = from => {
   let visited = [];
-  conditionalPush(from, visited); //
+  // for vr
+  for (let i = 1; i <= 90; i++) {
+    recursiveJump(network[from], i).forEach(element => {
+      conditionalPush(element, visited);
+    });
+  }
+  // conditionalPush(from, visited); //
   console.log(visited);
 };
+
 jumpMapper("oakland");
 // start by making this function retrn true for oakland because a loop is possible
