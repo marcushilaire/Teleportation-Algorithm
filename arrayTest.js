@@ -23,6 +23,7 @@ const arrCompare = (x, y) => {
 
 const numbersArr = [9, 1, 1, 4, 5, 6, 7, 8, 9];
 const arrTwice = (array, key) => {
+  //expects an array and a key as arguments
   let arr = [];
   if (array.includes(key)) {
     // console.log("this array includes 9");
@@ -37,6 +38,6 @@ const arrTwice = (array, key) => {
     return true;
   }
   return false;
-};
+}; // returns true if an array contains the key more than one time
 // console.log(numbersArr.indexOf(9));
 console.log(arrTwice(numbersArr, 1));

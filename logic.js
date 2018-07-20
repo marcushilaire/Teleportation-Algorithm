@@ -63,6 +63,24 @@ const arrCompare = (x, y) => {
   // return false; // i might need to take out or move this line
 }; // returns true if the arrays contain essentially same values
 
+const arrTwice = (array, key) => {
+  //expects an array and a key as arguments
+  let arr = [];
+  if (array.includes(key)) {
+    // console.log("this array includes 9");
+    array.forEach((element, index) => {
+      if (element === key) {
+        arr.push(true);
+        return;
+      }
+    });
+  }
+  if (arr.length > 1) {
+    return true;
+  }
+  return false;
+}; // returns true if an array contains the key more than one time
+
 const recursiveJump = (Arr, n) => {
   // expects an array and an iterator as arguments
   if (n === 1) {
@@ -196,8 +214,27 @@ const pathLister = from => {
     }
   }
 
-  // console.log(dump)
+  // console.log(dump);
   return dump;
+};
+
+const possibleLoop = city => {
+  let arr = [];
+  let stepList = pathLister(city);
+  for (x in stepList) {
+    // if (arrTwice(stepList[x], city)){
+    //   arr
+    // }
+    arr.push(arrTwice(stepList[x], city));
+    // see if each array in the index includes oakland more than one time and push true or false to visited
+  }
+  if (arr.includes(true)) {
+    console.log("successful loop");
+    return;
+  }
+  console.log("no loop");
+  return;
+  // if visited inlcudes true return the true string
 };
 
 const readInput = () => {
@@ -259,7 +296,5 @@ const readInput = () => {
   });
 }; // end of readinput arrow function
 // readInput();
-// console.log(network);
-console.log(pathLister("baltimore"));
-// console.log(network);
-// console.log(arrMatcher(jumpMapper("washington"), "washington"));
+
+possibleLoop("washington");
