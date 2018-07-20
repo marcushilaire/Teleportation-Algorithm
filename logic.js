@@ -233,6 +233,7 @@ const possibleLoop = city => {
 };
 
 const readInput = () => {
+  //reads through ./data/input.txt
   fs.readFile("./data/input.txt", "utf8", function(err, data) {
     if (err) {
       return console.log(err);
@@ -285,13 +286,12 @@ const readInput = () => {
       // can i travel in a loop from one particular city
       if (element.includes("loop")) {
         let finalString = element.replace("loop possible from ", "");
-        console.log(finalString);
+        // console.log(finalString);
         console.log(possibleLoop(finalString));
         return;
       }
     });
   });
-}; // end of readinput arrow function
-readInput();
+}; // outputs all comands to the console
 
-// possibleLoop("washington");
+readInput();
