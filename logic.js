@@ -76,7 +76,7 @@ const recursiveJump = (Arr, n) => {
   return recursiveJump(stringify(arrN), n - 1);
 }; // returns an array of possible landing points in exactly n jumps
 
-const possibleTwo = (from, n) => {
+const nJump = (from, n) => {
   //expects a city of origin and an iterator as arguments
 
   let dump = [];
@@ -89,7 +89,7 @@ const possibleTwo = (from, n) => {
 const possibleTravel = (from, to) => {
   // both arguments are expected to be city names as strings
 
-  if (possibleTwo(from, 90).includes(to)) {
+  if (nJump(from, 90).includes(to)) {
     return `Yes you can teleport from ${from} to ${to}`;
   }
   return `No, you cannot teleport from ${from} to ${to}`;
@@ -211,42 +211,71 @@ const pathLister = from => {
 
   console.log("dump", arrMatcher(jumpMapper(from), from));
 };
-// pathLister("baltimore");
+
 const readInput = () => {
-  // let arr = [];
   fs.readFile("./data/input.txt", "utf8", function(err, data) {
     if (err) {
       return console.log(err);
     }
     let splitReturn = data.split("\n");
-    // arr = data;
+
     splitReturn.forEach((element, index) => {
       //initializing the dataset
       if (element.includes("-")) {
         let twoPartArr = element.split(" - ");
-        // console.log(twoPartArr[0], twoPartArr[1]);
         initializePort(twoPartArr[0], twoPartArr[1]);
         return;
       }
 
       //can someone get from city x to city y
       if (element.includes("can I teleport from")) {
-        console.log(index, "can i teleport from");
+        let functionalString = element
+          .replace("can I teleport from ", "")
+          .split(" to ");
+        console.log(possibleTravel(functionalString[0], functionalString[1]));
         return;
       }
+
+      // what cities can i reach from x with a mxnimum of n jumps
       if (element.includes("cities from")) {
-        console.log(index, "cities from");
+        // console.log(element);
+        let functionalString = element
+          .replace("cities from ", "")
+          .replace("jumps", "")
+          .split(" in ");
+
+        let finalString = nJump(
+          functionalString[0],
+          functionalString[1]
+        ).reduce((accum, currVal, index, array) => {
+          if (index === array.length - 1) {
+            return `${accum} and ${currVal}`;
+          }
+          return `${accum}, ${currVal}`;
+        });
+
+        // console.log(finalString);
+
+        console.log(
+          `With a maxmimum of ${functionalString[1]}jump(s) from ${
+            functionalString[0]
+          } you can get to ${finalString}.`
+        );
+        // come back here and reduce these arrays so they can be printed
+        return;
       }
       if (element.includes("loop")) {
-        console.log(index, "looper");
+        // console.log(index, "looper");
+        return;
       }
     });
 
     // return arr;
-    console.log(network);
+    // console.log(network);
   });
   // return arr;
 }; // end of readinput arrow function
+readInput();
 // console.log(network);
 // console.log(readInput());
 // console.log(jumpMapper("oakland"));
