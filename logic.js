@@ -9,7 +9,7 @@ let network = {
   atlanta: ["washington"],
   newyork: ["philadelphia", "seattle"]
 };
-
+// take out the path from atl to philly
 let testArr = [[1, 2], [2, 3, 4, 5], [6]];
 let placeboArr = [1, 2, 3, 4];
 
@@ -59,6 +59,7 @@ const arrCompare = (x, y) => {
       return true;
     }
   }
+  // return false; // i might need to take out or move this line
 }; // returns true if the arrays contain essentially same values
 
 const recursiveJump = (Arr, n) => {
@@ -109,29 +110,83 @@ const conditionalPush = (city, visited) => {
 }; // pushes to the visited array if the path has not been taken
 
 const jumpMapper = from => {
+  // takes in a city of origin
   let visited = [];
   for (let i = 1; i <= 90; i++) {
     recursiveJump(network[from], i).forEach(element => {
-      // if (element !== from) {
       conditionalPush(element, visited);
-      // }
     });
   }
-  console.log(visited);
-  //check to see if the visited array contains two seperate paths to home,
-  // start by making this function retrn true for oakland because a loop is possible
-};
-const pathLister = (from, to) => {
-  let visitedArr = [];
-  for (let i = 1; i <= 90; i++) {
-    recursiveJump(network[from], i).forEach(element => {
-      if (!arrCompare(visitedArr, portTo(from, element)))
-        visitedArr.push(portTo(from, element));
-    });
+  return visited;
+}; // returns an array of all possible jumps to take
+
+const conditionalReverse = (array, key) => {
+  if (array[0] === key) {
+    return array;
   }
+  return array.reverse();
+}; // conditionally reverses and returns an array
 
-  console.log(visitedArr);
+const arrMatcher = (array, key) => {
+  let dump = {};
+
+  array.forEach((element, index) => {
+    if (element.includes(key)) {
+      dump[Object.keys(dump).length + 1] = conditionalReverse(element, key);
+    }
+  }); // prepping the array
+
+  // console.log(array);
+  for (let path in dump) {
+    let splitsArr = [];
+
+    array.forEach((element, index) => {
+      // console.log(element);
+
+      // console.log(dump[path][dump[path].length - 1]);
+      if (
+        element.includes(dump[path][dump[path].length - 1]) &&
+        !element.includes(key)
+      ) {
+        splitsArr.push(
+          conditionalReverse(element, dump[path][dump[path].length - 1])
+        );
+        //if splits array has a length greater than one
+        if (splitsArr.length > 1) {
+          splitsArr.forEach((element, index) => {
+            if (index !== 0) {
+              console.log("does not equal zero", index);
+
+              // dump[Object.keys(dump).length + 1] = dump[path];
+
+              // dump[iterativeLength].push(element);
+              return;
+            }
+            console.log("equals zero", index);
+            dump[path].push(element);
+          });
+          //create a new numbered path string in the dump object
+          return;
+          //
+        }
+        dump[path].push(element);
+        //e
+      }
+    });
+    console.log("path and array", path, splitsArr);
+  } // First attach, prepping for loop
+  //****** */
+  // console.log(array);
+  // filter out the array based on what is in bum
+  // console.log(splitsArr);
+  return dump;
+}; // will return dump
+
+const pathLister = from => {
+  // let list = {};
+  // arrMatcher(jumpMapper(from), from); //
+
+  console.log("dump", arrMatcher(jumpMapper(from), from));
 };
-
-jumpMapper("washington");
-// pathLister("oakland");
+pathLister("baltimore");
+// console.log(jumpMapper("oakland"));
