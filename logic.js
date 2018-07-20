@@ -64,7 +64,7 @@ const printify = array => {
 }; // and returns  [1, 1, 2, 3, 4] (leaving in duplicates)
 
 const arrCompare = (x, y) => {
-  //  expects two arrays, each of length two: [9,1], [1,9]
+  //  expects two arrays, each of length two such as: [9,1], [1,9]
   for (let i = 0; i < x.length; i++) {
     if (x[i].includes(y[0]) && x[i].includes(y[1])) {
       return true;
