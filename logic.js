@@ -1,14 +1,14 @@
 const fs = require("fs");
 let network = {
-  // washington: ["atlanta", "baltimore"],
-  // baltimore: ["philadelphia", "seattle", "washington"],
-  // philadelphia: ["newyork", "baltimore"],
-  // losangeles: ["sanfrancisco", "oakland"],
-  // sanfrancisco: ["oakland", "losangeles"],
-  // oakland: ["losangeles", "sanfrancisco"],
-  // seattle: ["newyork", "baltimore"],
-  // atlanta: ["washington"],
-  // newyork: ["philadelphia", "seattle"]
+  washington: ["atlanta", "baltimore"],
+  baltimore: ["philadelphia", "seattle", "washington"],
+  philadelphia: ["newyork", "baltimore"],
+  losangeles: ["sanfrancisco", "oakland"],
+  sanfrancisco: ["oakland", "losangeles"],
+  oakland: ["losangeles", "sanfrancisco"],
+  seattle: ["newyork", "baltimore"],
+  atlanta: ["washington"],
+  newyork: ["philadelphia", "seattle"]
 };
 // take out the path from atl to philly
 let testArr = [[1, 2], [2, 3, 4, 5], [6]];
@@ -151,65 +151,34 @@ const arrMatcher = (array, key) => {
     }
   }); // prepping the array
 
-  // console.log(array);
   for (let path in dump) {
     let splitsArr = [];
 
     array.forEach((element, index) => {
-      // console.log(element);
-
-      // console.log(dump[path][dump[path].length - 1]);
       if (
         element.includes(dump[path][dump[path].length - 1]) &&
-        !element.includes(key) &&
+        // !element.includes(key) &&
         !element.includes(dump[path][dump[path].length - 2])
       ) {
-        splitsArr.push(
-          conditionalReverse(element, dump[path][dump[path].length - 1])
-        );
-        //if splits array has a length greater than one
-        if (splitsArr.length > 1) {
-          console.log("path and array", path, splitsArr);
-
-          splitsArr.forEach((element, index) => {
-            if (index !== splitsArr.length - 1) {
-              console.log("last item of the array at ", index);
-
-              dump[Object.keys(dump).length + 1] = printify([
-                ...dump[path],
-                element
-              ]);
-              return;
-            }
-
-            dump[path] = printify([...dump[path], element]);
-
-            console.log("the first several items of the array at ", index);
-          });
-          //create a new numbered path string in the dump object
-          return;
-          //
+        if (!Object.values(dump).includes(printify([...dump[path], element]))) {
+          dump[Object.keys(dump).length + 1] = printify([
+            ...dump[path],
+            element
+          ]);
         }
-        // console.log(printify([...dump[path], element]));
-        //  else {
-        dump[path] = printify([...dump[path], element]);
-        // } //e
       }
     });
-    // console.log(dump[path]);
-  } // First attach, prepping for loop
-  //*****LOOOOP* */
-  // console.log(array);
-  // filter out the array based on what is in bum
-  // console.log(splitsArr);
-  return dump;
-}; // will return dump
+  } // attaching the next part of the array
+  return dump; // returning the array
+};
 
 const pathLister = from => {
-  // let list = {};
-  // arrMatcher(jumpMapper(from), from); //
-
-  console.log("dump", arrMatcher(jumpMapper(from), from));
+  // console.log("dump", arrMatcher(jumpMapper(from), from));
+  let dump = arrMatcher(jumpMapper(from), from);
+  let pathArr = jumpMapper(from);
+  for (let path in dump) {
+  }
+  return dump;
 };
 
 const readInput = () => {
@@ -261,6 +230,8 @@ const readInput = () => {
         );
         return;
       }
+
+      // can i travel in a loop from one particular city
       if (element.includes("loop")) {
         // console.log(index, "looper");
         return;
@@ -268,8 +239,7 @@ const readInput = () => {
     });
   });
 }; // end of readinput arrow function
-readInput();
+// readInput();
 // console.log(network);
-// console.log(readInput());
-// console.log(jumpMapper("oakland"));
+console.log(pathLister("baltimore"));
 // console.log(network);
