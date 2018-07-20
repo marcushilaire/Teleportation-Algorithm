@@ -1,13 +1,14 @@
+const fs = require("fs");
 let network = {
-  washington: ["atlanta", "baltimore"],
-  baltimore: ["philadelphia", "seattle", "washington"],
-  philadelphia: ["newyork", "baltimore"],
-  losangeles: ["sanfrancisco", "oakland"],
-  sanfrancisco: ["oakland", "losangeles"],
-  oakland: ["losangeles", "sanfrancisco"],
-  seattle: ["newyork", "baltimore"],
-  atlanta: ["washington"],
-  newyork: ["philadelphia", "seattle"]
+  // washington: ["atlanta", "baltimore"],
+  // baltimore: ["philadelphia", "seattle", "washington"],
+  // philadelphia: ["newyork", "baltimore"],
+  // losangeles: ["sanfrancisco", "oakland"],
+  // sanfrancisco: ["oakland", "losangeles"],
+  // oakland: ["losangeles", "sanfrancisco"],
+  // seattle: ["newyork", "baltimore"],
+  // atlanta: ["washington"],
+  // newyork: ["philadelphia", "seattle"]
 };
 // take out the path from atl to philly
 let testArr = [[1, 2], [2, 3, 4, 5], [6]];
@@ -32,7 +33,7 @@ const initializePort = (a, b) => {
   } else {
     network[b] = [a];
   }
-  console.log(network);
+  // console.log(network);
 };
 
 const stringify = array => {
@@ -127,6 +128,20 @@ const conditionalReverse = (array, key) => {
   return array.reverse();
 }; // conditionally reverses and returns an array
 
+const printify = array => {
+  let stringArr = [];
+  array.forEach(element => {
+    if (typeof element === "object") {
+      element.forEach(element => {
+        stringArr.push(element);
+      });
+    } else {
+      stringArr.push(element);
+    }
+  });
+  return stringArr;
+};
+
 const arrMatcher = (array, key) => {
   let dump = {};
 
@@ -146,36 +161,44 @@ const arrMatcher = (array, key) => {
       // console.log(dump[path][dump[path].length - 1]);
       if (
         element.includes(dump[path][dump[path].length - 1]) &&
-        !element.includes(key)
+        !element.includes(key) &&
+        !element.includes(dump[path][dump[path].length - 2])
       ) {
         splitsArr.push(
           conditionalReverse(element, dump[path][dump[path].length - 1])
         );
         //if splits array has a length greater than one
         if (splitsArr.length > 1) {
+          console.log("path and array", path, splitsArr);
+
           splitsArr.forEach((element, index) => {
-            if (index !== 0) {
-              console.log("does not equal zero", index);
+            if (index !== splitsArr.length - 1) {
+              console.log("last item of the array at ", index);
 
-              // dump[Object.keys(dump).length + 1] = dump[path];
-
-              // dump[iterativeLength].push(element);
+              dump[Object.keys(dump).length + 1] = printify([
+                ...dump[path],
+                element
+              ]);
               return;
             }
-            console.log("equals zero", index);
-            dump[path].push(element);
+
+            dump[path] = printify([...dump[path], element]);
+
+            console.log("the first several items of the array at ", index);
           });
           //create a new numbered path string in the dump object
           return;
           //
         }
-        dump[path].push(element);
-        //e
+        // console.log(printify([...dump[path], element]));
+        //  else {
+        dump[path] = printify([...dump[path], element]);
+        // } //e
       }
     });
-    console.log("path and array", path, splitsArr);
+    // console.log(dump[path]);
   } // First attach, prepping for loop
-  //****** */
+  //*****LOOOOP* */
   // console.log(array);
   // filter out the array based on what is in bum
   // console.log(splitsArr);
@@ -188,5 +211,43 @@ const pathLister = from => {
 
   console.log("dump", arrMatcher(jumpMapper(from), from));
 };
-pathLister("baltimore");
+// pathLister("baltimore");
+const readInput = () => {
+  // let arr = [];
+  fs.readFile("./data/input.txt", "utf8", function(err, data) {
+    if (err) {
+      return console.log(err);
+    }
+    let splitReturn = data.split("\n");
+    // arr = data;
+    splitReturn.forEach((element, index) => {
+      //initializing the dataset
+      if (element.includes("-")) {
+        let twoPartArr = element.split(" - ");
+        // console.log(twoPartArr[0], twoPartArr[1]);
+        initializePort(twoPartArr[0], twoPartArr[1]);
+        return;
+      }
+
+      //can someone get from city x to city y
+      if (element.includes("can I teleport from")) {
+        console.log(index, "can i teleport from");
+        return;
+      }
+      if (element.includes("cities from")) {
+        console.log(index, "cities from");
+      }
+      if (element.includes("loop")) {
+        console.log(index, "looper");
+      }
+    });
+
+    // return arr;
+    console.log(network);
+  });
+  // return arr;
+}; // end of readinput arrow function
+// console.log(network);
+// console.log(readInput());
 // console.log(jumpMapper("oakland"));
+// console.log(network);
