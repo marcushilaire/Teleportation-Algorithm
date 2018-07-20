@@ -173,19 +173,30 @@ const arrMatcher = (array, key) => {
 const pathLister = from => {
   let dump = arrMatcher(jumpMapper(from), from);
   let pathArr = jumpMapper(from);
-  for (let path in dump) {
-    pathArr.forEach(element => {
-      console.log(element);
-      if (
-        element.includes(dump[path][dump[path].length - 1]) &&
-        !element.includes(dump[path][dump[path].length - 2])
-      ) {
-        console.log;
-        if (!Object.values(dump).indcludes()) {
+  for (let i = 0; i < 4; i++) {
+    for (let path in dump) {
+      pathArr.forEach(element => {
+        // console.log(element);
+        if (
+          element.includes(dump[path][dump[path].length - 1]) &&
+          !element.includes(dump[path][dump[path].length - 2])
+        ) {
+          if (
+            element.includes(dump[path][0]) &&
+            element.includes(dump[path][1])
+          ) {
+            return;
+          }
+          dump[Object.keys(dump).length + 1] = printify([
+            ...dump[path],
+            conditionalReverse(element, dump[path][dump[path].length - 1])
+          ]);
         }
-      }
-    });
+      });
+    }
   }
+
+  // console.log(dump)
   return dump;
 };
 
@@ -251,3 +262,4 @@ const readInput = () => {
 // console.log(network);
 console.log(pathLister("baltimore"));
 // console.log(network);
+// console.log(arrMatcher(jumpMapper("washington"), "washington"));
