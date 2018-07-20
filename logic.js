@@ -1,14 +1,14 @@
 const fs = require("fs");
 let network = {
-  washington: ["atlanta", "baltimore"],
-  baltimore: ["philadelphia", "seattle", "washington"],
-  philadelphia: ["newyork", "baltimore"],
-  losangeles: ["sanfrancisco", "oakland"],
-  sanfrancisco: ["oakland", "losangeles"],
-  oakland: ["losangeles", "sanfrancisco"],
-  seattle: ["newyork", "baltimore"],
-  atlanta: ["washington"],
-  newyork: ["philadelphia", "seattle"]
+  // washington: ["atlanta", "baltimore"],
+  // baltimore: ["philadelphia", "seattle", "washington"],
+  // philadelphia: ["newyork", "baltimore"],
+  // losangeles: ["sanfrancisco", "oakland"],
+  // sanfrancisco: ["oakland", "losangeles"],
+  // oakland: ["losangeles", "sanfrancisco"],
+  // seattle: ["newyork", "baltimore"],
+  // atlanta: ["washington"],
+  // newyork: ["philadelphia", "seattle"]
 };
 // take out the path from atl to philly
 let testArr = [[1, 2], [2, 3, 4, 5], [6]];
@@ -222,19 +222,14 @@ const possibleLoop = city => {
   let arr = [];
   let stepList = pathLister(city);
   for (x in stepList) {
-    // if (arrTwice(stepList[x], city)){
-    //   arr
-    // }
+    //
     arr.push(arrTwice(stepList[x], city));
-    // see if each array in the index includes oakland more than one time and push true or false to visited
   }
   if (arr.includes(true)) {
-    console.log("successful loop");
-    return;
+    // check to see if the list of possible paths
+    return `Yes, you can teleport in a loop from ${city}`;
   }
-  console.log("no loop");
-  return;
-  // if visited inlcudes true return the true string
+  return `No, you cannot teleport in a loop from ${city}`;
 };
 
 const readInput = () => {
@@ -289,12 +284,14 @@ const readInput = () => {
 
       // can i travel in a loop from one particular city
       if (element.includes("loop")) {
-        // console.log(index, "looper");
+        let finalString = element.replace("loop possible from ", "");
+        console.log(finalString);
+        console.log(possibleLoop(finalString));
         return;
       }
     });
   });
 }; // end of readinput arrow function
-// readInput();
+readInput();
 
-possibleLoop("washington");
+// possibleLoop("washington");
