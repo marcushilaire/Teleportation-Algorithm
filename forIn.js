@@ -14,7 +14,7 @@ let network = {
   atlanta: ["washington"],
   newyork: ["philadelphia", "seattle"]
 };
-const numbersArr = [[1, 2], 3, 4, 5, 6, 7, 8, 9];
+const numbersArr = [1, 2, 3, 4, 5, 6, 7, 8, 9];
 
 const testfunction = () => {
   return numbersArr;
@@ -26,11 +26,20 @@ const testfunction = () => {
 //   }
 //   console.log(index);
 // });
-console.log(...numbersArr, [9000]);
-let string = "this is a string";
-string.replace("string", "");
-console.log(string.replace("string", ""));
+// console.log(...numbersArr, [9000]);
+// let string = "this is a string";
+// string.replace("string", "");
+// console.log(string.replace("string", ""));
 
+console.log(Object.values(namesAge).includes(25));
 // for (let x in namesAge) {
 //   console.log(namesAge[x]);
+// }
+// for (let i = 0; i < numbersArr.length; i++) {
+// console.log(i)
+// numbersArr.forEach(element => {
+//   numbersArr.push(1);
+//   console.log(numbersArr.length);
+// });
+
 // }
