@@ -31,7 +31,9 @@ const testfunction = () => {
 // string.replace("string", "");
 // console.log(string.replace("string", ""));
 
-console.log(Object.values(namesAge).includes(25));
+if (!Object.values(namesAge).includes(285)) {
+  console.log("hello");
+}
 // for (let x in namesAge) {
 //   console.log(namesAge[x]);
 // }

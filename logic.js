@@ -152,8 +152,6 @@ const arrMatcher = (array, key) => {
   }); // prepping the array
 
   for (let path in dump) {
-    let splitsArr = [];
-
     array.forEach((element, index) => {
       if (
         element.includes(dump[path][dump[path].length - 1]) &&
@@ -173,10 +171,20 @@ const arrMatcher = (array, key) => {
 };
 
 const pathLister = from => {
-  // console.log("dump", arrMatcher(jumpMapper(from), from));
   let dump = arrMatcher(jumpMapper(from), from);
   let pathArr = jumpMapper(from);
   for (let path in dump) {
+    pathArr.forEach(element => {
+      console.log(element);
+      if (
+        element.includes(dump[path][dump[path].length - 1]) &&
+        !element.includes(dump[path][dump[path].length - 2])
+      ) {
+        console.log;
+        if (!Object.values(dump).indcludes()) {
+        }
+      }
+    });
   }
   return dump;
 };
