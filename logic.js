@@ -254,14 +254,11 @@ const readInput = () => {
           return `${accum}, ${currVal}`;
         });
 
-        // console.log(finalString);
-
         console.log(
           `With a maxmimum of ${functionalString[1]}jump(s) from ${
             functionalString[0]
           } you can get to ${finalString}.`
         );
-        // come back here and reduce these arrays so they can be printed
         return;
       }
       if (element.includes("loop")) {
@@ -269,11 +266,7 @@ const readInput = () => {
         return;
       }
     });
-
-    // return arr;
-    // console.log(network);
   });
-  // return arr;
 }; // end of readinput arrow function
 readInput();
 // console.log(network);
