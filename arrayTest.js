@@ -12,11 +12,31 @@ const arrCompare = (x, y) => {
   }
 }; // returns true if the arrays contain essentially same values
 
-console.log(arrCompare(a, d));
+// console.log(arrCompare(a, d));
 
-[1, 2, 3, 4, 5].forEach(element => {
-  if ((element = 4)) {
-    return;
+// [1, 2, 3, 4, 5].forEach(element => {
+//   if ((element = 4)) {
+//     return;
+//   }
+//   console.log(element);
+// });
+
+const numbersArr = [9, 1, 1, 4, 5, 6, 7, 8, 9];
+const arrTwice = (array, key) => {
+  let arr = [];
+  if (array.includes(key)) {
+    // console.log("this array includes 9");
+    array.forEach((element, index) => {
+      if (element === key) {
+        arr.push(true);
+        return;
+      }
+    });
   }
-  console.log(element);
-});
+  if (arr.length > 1) {
+    return true;
+  }
+  return false;
+};
+// console.log(numbersArr.indexOf(9));
+console.log(arrTwice(numbersArr, 1));
