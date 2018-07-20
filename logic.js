@@ -1,5 +1,6 @@
 const fs = require("fs");
 let network = {
+  //information from input.txt will populate this object in the following format
   // washington: ["atlanta", "baltimore"],
   // baltimore: ["philadelphia", "seattle", "washington"],
   // philadelphia: ["newyork", "baltimore"],
@@ -10,9 +11,6 @@ let network = {
   // atlanta: ["washington"],
   // newyork: ["philadelphia", "seattle"]
 };
-// take out the path from atl to philly
-let testArr = [[1, 2], [2, 3, 4, 5], [6]];
-let placeboArr = [1, 2, 3, 4];
 
 const initializePort = (a, b) => {
   // both arguments are expected to be city names as strings
@@ -20,24 +18,21 @@ const initializePort = (a, b) => {
   // if cityA already has a  key in the network object: cityB is pushed to its array
   // if cityA does not have a key in the network object: a key is created with [cityB] as its value
 
-  //first conditional
   if (network[a]) {
     network[a].push(b);
   } else {
     network[a] = [b];
   }
 
-  //second conditional
   if (network[b]) {
     network[b].push(a);
   } else {
     network[b] = [a];
   }
-  // console.log(network);
 };
 
 const stringify = array => {
-  // expects to take in an array ([[1], [2, 3], [4]])
+  // expects to take in an array in a format similar to: ([[1], [1, 2, 3], [4]])
   let stringArr = [];
   array.forEach(element => {
     if (typeof element === "object") {
@@ -51,16 +46,30 @@ const stringify = array => {
     }
   });
   return stringArr;
-}; // and returns  [1, 2, 3, 4]
+}; // and returns  [1, 2, 3, 4] (removing duplicates)
+
+const printify = array => {
+  // expects to take in an array in a format similar to: ([[1], [1, 2, 3], [4]])
+  let stringArr = [];
+  array.forEach(element => {
+    if (typeof element === "object") {
+      element.forEach(element => {
+        stringArr.push(element);
+      });
+    } else {
+      stringArr.push(element);
+    }
+  });
+  return stringArr;
+}; // and returns  [1, 1, 2, 3, 4] (leaving in duplicates)
 
 const arrCompare = (x, y) => {
-  // x should be visited and y should be the new visit attempt
+  //  expects two arrays, each of length two: [9,1], [1,9]
   for (let i = 0; i < x.length; i++) {
     if (x[i].includes(y[0]) && x[i].includes(y[1])) {
       return true;
     }
   }
-  // return false; // i might need to take out or move this line
 }; // returns true if the arrays contain essentially same values
 
 const arrTwice = (array, key) => {
@@ -82,7 +91,7 @@ const arrTwice = (array, key) => {
 }; // returns true if an array contains the key more than one time
 
 const recursiveJump = (Arr, n) => {
-  // expects an array and an iterator as arguments
+  // expects an array from the network object (washington: ["atlanta", "baltimore"]) and an iterator as arguments
   if (n === 1) {
     return Arr;
   }
@@ -112,15 +121,15 @@ const possibleTravel = (from, to) => {
   }
   return `No, you cannot teleport from ${from} to ${to}`;
 }; // returns a string that indicates whether or not you can teleport between both cities
-// expand on this later to include which specific path you can take
 
 const portTo = (from, to) => {
+  //expects any two values
   return [from, to];
-};
+}; // returns an array with those two values
 
 const conditionalPush = (city, visited) => {
   //takes in city name and array from jumpMapper(from, visited)
-  // if(city!==)
+  // not entirely functional, only meant to be used in jumpMapper
   for (let i = 0; i < network[city].length; i++) {
     if (!arrCompare(visited, portTo(city, network[city][i]))) {
       visited.push(portTo(city, network[city][i]));
@@ -137,40 +146,28 @@ const jumpMapper = from => {
     });
   }
   return visited;
-}; // returns an array of all possible jumps to take
+}; // returns an array of all possible jumps to take from that city
 
 const conditionalReverse = (array, key) => {
+  // takes in an array and a key
   if (array[0] === key) {
     return array;
   }
   return array.reverse();
-}; // conditionally reverses and returns an array
-
-const printify = array => {
-  let stringArr = [];
-  array.forEach(element => {
-    if (typeof element === "object") {
-      element.forEach(element => {
-        stringArr.push(element);
-      });
-    } else {
-      stringArr.push(element);
-    }
-  });
-  return stringArr;
-};
+}; // returns a reversed array based on whether or no its first item is the key
 
 const arrMatcher = (array, key) => {
+  // essentially step one of possibleLoop
   let dump = {};
 
-  array.forEach((element, index) => {
+  array.forEach(element => {
     if (element.includes(key)) {
       dump[Object.keys(dump).length + 1] = conditionalReverse(element, key);
     }
   }); // prepping the array
 
   for (let path in dump) {
-    array.forEach((element, index) => {
+    array.forEach(element => {
       if (
         element.includes(dump[path][dump[path].length - 1]) &&
         // !element.includes(key) &&
@@ -185,16 +182,16 @@ const arrMatcher = (array, key) => {
       }
     });
   } // attaching the next part of the array
-  return dump; // returning the array
-};
+  return dump;
+}; //sets up the array for pathLister
 
 const pathLister = from => {
+  // essentially part two of possibleLoop
   let dump = arrMatcher(jumpMapper(from), from);
   let pathArr = jumpMapper(from);
   for (let i = 0; i < 4; i++) {
     for (let path in dump) {
       pathArr.forEach(element => {
-        // console.log(element);
         if (
           element.includes(dump[path][dump[path].length - 1]) &&
           !element.includes(dump[path][dump[path].length - 2])
@@ -213,12 +210,11 @@ const pathLister = from => {
       });
     }
   }
-
-  // console.log(dump);
   return dump;
-};
+}; // returns an object with several arrays that contain possible teleportation trips
 
 const possibleLoop = city => {
+  // takes in a city as a string
   let arr = [];
   let stepList = pathLister(city);
   for (x in stepList) {
@@ -230,7 +226,7 @@ const possibleLoop = city => {
     return `Yes, you can teleport in a loop from ${city}`;
   }
   return `No, you cannot teleport in a loop from ${city}`;
-};
+}; // returns an string that indicates whether or not it is possible to teleport in a loop from the city
 
 const readInput = () => {
   //reads through ./data/input.txt
@@ -241,14 +237,14 @@ const readInput = () => {
     let splitReturn = data.split("\n");
 
     splitReturn.forEach((element, index) => {
-      //initializing the dataset
+      //initializing the dataset into the network object above
       if (element.includes("-")) {
         let twoPartArr = element.split(" - ");
         initializePort(twoPartArr[0], twoPartArr[1]);
         return;
       }
 
-      //can someone get from city x to city y
+      //can someone teleport from city x to city y
       if (element.includes("can I teleport from")) {
         let functionalString = element
           .replace("can I teleport from ", "")
@@ -286,7 +282,6 @@ const readInput = () => {
       // can i travel in a loop from one particular city
       if (element.includes("loop")) {
         let finalString = element.replace("loop possible from ", "");
-        // console.log(finalString);
         console.log(possibleLoop(finalString));
         return;
       }
