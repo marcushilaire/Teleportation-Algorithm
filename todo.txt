@@ -1,0 +1,9 @@
+add an output file for logging purposes in data
+
+split functionality from logic.js so that it is not just one large confusing file
+    consider splitting by bit of functionality accomplished. or main and helper functions
+
+add the prompt and parameters to the readme
+
+add to projects.json in the portfolio
+    select a decent picture as a thumbnail, not just the same nodejs one
