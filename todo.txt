@@ -7,3 +7,7 @@ add the prompt and parameters to the readme
 
 add to projects.json in the portfolio
     select a decent picture as a thumbnail, not just the same nodejs one
+
+work on making a proper solution for the looping problem, one that does not create extra key value pairs that are unnecessary.
+
+refactor certain array based solutions with for every (which means go through the for every documentation in the lifelong learning repo)
